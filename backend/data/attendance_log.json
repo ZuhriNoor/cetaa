@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "7/11/2025, 2:25:10 PM",
+    "name": "Deepak",
+    "email": "deepak@gmail.com",
+    "phone": "1234567786",
+    "couponCode": "221",
+    "paymentMethod": "Cash"
+  },
+  {
+    "timestamp": "7/11/2025, 2:25:17 PM",
+    "name": "Neha",
+    "email": "neha@gmail.com",
+    "phone": "7766554433",
+    "couponCode": "322",
+    "paymentMethod": "Cash"
+  },
+  {
+    "timestamp": "7/11/2025, 9:26:42 PM",
+    "name": "Ravi",
+    "email": "ravi@gmail.com",
+    "phone": "9988776655",
+    "couponCode": "34543",
+    "paymentMethod": "Cash"
+  },
+  {
+    "timestamp": "7/12/2025, 6:44:21 PM",
+    "name": "Divya",
+    "email": "divya@domain.com",
+    "phone": "6767676767",
+    "couponCode": "123",
+    "paymentMethod": "UPI"
+  },
+  {
+    "timestamp": "7/12/2025, 6:53:35 PM",
+    "name": "Siddharth",
+    "email": "siddharth@domain.com",
+    "phone": "4564564567",
+    "couponCode": "453",
+    "paymentMethod": "Card"
+  }
+]

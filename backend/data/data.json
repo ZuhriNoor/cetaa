@@ -1,0 +1,352 @@
+[
+  {
+    "id": 100,
+    "name": "Deepak",
+    "phone": "1234567786",
+    "email": "deepak@gmail.com",
+    "marked": true
+  },
+  {
+    "id": 1,
+    "name": "Amit",
+    "phone": "9876543210",
+    "email": "amit@example.com",
+    "marked": false
+  },
+  {
+    "id": 2,
+    "name": "Sneha",
+    "phone": "9123456789",
+    "email": "sneha@domain.com",
+    "marked": false
+  },
+  {
+    "id": 3,
+    "name": "Ravi",
+    "phone": "9988776655",
+    "email": "ravi@gmail.com",
+    "marked": true
+  },
+  {
+    "id": 4,
+    "name": "Priya",
+    "phone": "8899001122",
+    "email": "priya@domain.com",
+    "marked": false
+  },
+  {
+    "id": 5,
+    "name": "Karan",
+    "phone": "7788990011",
+    "email": "karan@yahoo.com",
+    "marked": false
+  },
+  {
+    "id": 6,
+    "name": "Meera",
+    "phone": "6677889900",
+    "email": "meera@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 7,
+    "name": "Arjun",
+    "phone": "8877665544",
+    "email": "arjun@live.com",
+    "marked": false
+  },
+  {
+    "id": 8,
+    "name": "Neha",
+    "phone": "7766554433",
+    "email": "neha@gmail.com",
+    "marked": true
+  },
+  {
+    "id": 9,
+    "name": "Rahul",
+    "phone": "9988007766",
+    "email": "rahul@domain.com",
+    "marked": false
+  },
+  {
+    "id": 10,
+    "name": "Anjali",
+    "phone": "9090909090",
+    "email": "anjali@example.com",
+    "marked": false
+  },
+  {
+    "id": 11,
+    "name": "Vikas",
+    "phone": "7878787878",
+    "email": "vikas@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 12,
+    "name": "Divya",
+    "phone": "6767676767",
+    "email": "divya@domain.com",
+    "marked": true
+  },
+  {
+    "id": 13,
+    "name": "Ramesh",
+    "phone": "5656565656",
+    "email": "ramesh@yahoo.com",
+    "marked": false
+  },
+  {
+    "id": 14,
+    "name": "Kavya",
+    "phone": "4545454545",
+    "email": "kavya@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 15,
+    "name": "Manoj",
+    "phone": "3434343434",
+    "email": "manoj@live.com",
+    "marked": false
+  },
+  {
+    "id": 16,
+    "name": "Isha",
+    "phone": "2323232323",
+    "email": "isha@example.com",
+    "marked": false
+  },
+  {
+    "id": 17,
+    "name": "Nikhil",
+    "phone": "1212121212",
+    "email": "nikhil@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 18,
+    "name": "Tanya",
+    "phone": "9898989898",
+    "email": "tanya@domain.com",
+    "marked": false
+  },
+  {
+    "id": 19,
+    "name": "Suresh",
+    "phone": "8787878787",
+    "email": "suresh@yahoo.com",
+    "marked": false
+  },
+  {
+    "id": 20,
+    "name": "Ritu",
+    "phone": "7676767676",
+    "email": "ritu@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 21,
+    "name": "Mohit",
+    "phone": "6565656565",
+    "email": "mohit@domain.com",
+    "marked": false
+  },
+  {
+    "id": 22,
+    "name": "Pooja",
+    "phone": "5454545454",
+    "email": "pooja@live.com",
+    "marked": false
+  },
+  {
+    "id": 23,
+    "name": "Varun",
+    "phone": "4343434343",
+    "email": "varun@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 24,
+    "name": "Nisha",
+    "phone": "3232323232",
+    "email": "nisha@example.com",
+    "marked": false
+  },
+  {
+    "id": 25,
+    "name": "Ajay",
+    "phone": "2121212121",
+    "email": "ajay@domain.com",
+    "marked": false
+  },
+  {
+    "id": 26,
+    "name": "Shweta",
+    "phone": "1010101010",
+    "email": "shweta@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 27,
+    "name": "Gaurav",
+    "phone": "9191919191",
+    "email": "gaurav@domain.com",
+    "marked": false
+  },
+  {
+    "id": 28,
+    "name": "Sana",
+    "phone": "8181818181",
+    "email": "sana@live.com",
+    "marked": false
+  },
+  {
+    "id": 29,
+    "name": "Rohit",
+    "phone": "7171717171",
+    "email": "rohit@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 30,
+    "name": "Anu",
+    "phone": "6161616161",
+    "email": "anu@example.com",
+    "marked": false
+  },
+  {
+    "id": 31,
+    "name": "Dinesh",
+    "phone": "5151515151",
+    "email": "dinesh@domain.com",
+    "marked": false
+  },
+  {
+    "id": 32,
+    "name": "Lata",
+    "phone": "4141414141",
+    "email": "lata@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 33,
+    "name": "Sagar",
+    "phone": "3131313131",
+    "email": "sagar@live.com",
+    "marked": false
+  },
+  {
+    "id": 34,
+    "name": "Preeti",
+    "phone": "2020202020",
+    "email": "preeti@example.com",
+    "marked": false
+  },
+  {
+    "id": 35,
+    "name": "Alok",
+    "phone": "1111111111",
+    "email": "alok@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 36,
+    "name": "Bhavna",
+    "phone": "1231231234",
+    "email": "bhavna@domain.com",
+    "marked": false
+  },
+  {
+    "id": 37,
+    "name": "Yash",
+    "phone": "2342342345",
+    "email": "yash@live.com",
+    "marked": false
+  },
+  {
+    "id": 38,
+    "name": "Kriti",
+    "phone": "3453453456",
+    "email": "kriti@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 39,
+    "name": "Siddharth",
+    "phone": "4564564567",
+    "email": "siddharth@domain.com",
+    "marked": true
+  },
+  {
+    "id": 40,
+    "name": "Rachna",
+    "phone": "5675675678",
+    "email": "rachna@live.com",
+    "marked": false
+  },
+  {
+    "id": 41,
+    "name": "Vivek",
+    "phone": "6786786789",
+    "email": "vivek@example.com",
+    "marked": false
+  },
+  {
+    "id": 42,
+    "name": "Simran",
+    "phone": "7897897890",
+    "email": "simran@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 43,
+    "name": "Harsh",
+    "phone": "8908908901",
+    "email": "harsh@domain.com",
+    "marked": false
+  },
+  {
+    "id": 44,
+    "name": "Jaya",
+    "phone": "9019019012",
+    "email": "jaya@live.com",
+    "marked": false
+  },
+  {
+    "id": 45,
+    "name": "Naveen",
+    "phone": "9129129123",
+    "email": "naveen@gmail.com",
+    "marked": false
+  },
+  {
+    "id": 46,
+    "name": "Tanvi",
+    "phone": "9239239234",
+    "email": "tanvi@example.com",
+    "marked": false
+  },
+  {
+    "id": 47,
+    "name": "Omkar",
+    "phone": "9349349345",
+    "email": "omkar@domain.com",
+    "marked": false
+  },
+  {
+    "id": 48,
+    "name": "Rina",
+    "phone": "9459459456",
+    "email": "rina@live.com",
+    "marked": false
+  },
+  {
+    "id": 49,
+    "name": "Uday",
+    "phone": "9569569567",
+    "email": "uday@gmail.com",
+    "marked": false
+  }
+]

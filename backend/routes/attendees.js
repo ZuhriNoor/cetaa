@@ -1,31 +1,46 @@
-import express from "express"
+import express from "express";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import Fuse from "fuse.js";
+
 const router = express.Router();
-import Attendee from '../models/Attendee.js'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const DATA_PATH = path.join(__dirname, "..", "data", "data.json");
+
+const getAttendees = () => {
+  const raw = fs.readFileSync(DATA_PATH, "utf-8");
+  return JSON.parse(raw);
+};
 
 // GET /attendees?search=prefix
-router.get('/', async (req, res) => {
-  const search = req.query["search"];
+router.get("/", (req, res) => {
+  const search = req.query.search?.toLowerCase() || "";
+  const attendees = getAttendees();
+
   if (!search) return res.json([]);
-  try {
-    const regex = new RegExp('^' + search, 'i');
-    console.log(regex)
-    const attendees = await Attendee.find({name: {$regex: regex}}).limit(10);
-    console.log(attendees)
-    res.json(attendees);
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
+
+  // Fuse.js fuzzy + prefix config
+  const fuse = new Fuse(attendees, {
+    keys: ["name"],
+    threshold: 0.3,
+    ignoreLocation: true,
+    minMatchCharLength: 1,
+  });
+
+  const results = fuse.search(search).map(result => result.item);
+  res.json(results.slice(0, 5));
 });
 
 // GET /attendees/:id
-router.get('/:id', async (req, res) => {
-  try {
-    const attendee = await Attendee.findById(req.params.id);
-    if (!attendee) return res.status(404).json({ error: 'Not found' });
-    res.json(attendee);
-  } catch (err) {
-    res.status(500).json({ error: 'Server error' });
-  }
+router.get("/:id", (req, res) => {
+  const attendees = getAttendees();
+  const id = parseInt(req.params.id, 10);
+  const attendee = attendees.find((a) => a.id === id);
+  if (!attendee) return res.status(404).json({ error: "Attendee not found" });
+  res.json(attendee);
 });
 
-export default router; 
+export default router;

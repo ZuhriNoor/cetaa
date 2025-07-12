@@ -32,7 +32,7 @@ function App() {
       setLoading(false);
     }
   };
-
+  var data = [1,2,3];
   // Fetch attendee details from backend
   const handleSelect = async (attendee) => {
     setLoading(true);
@@ -68,6 +68,7 @@ function App() {
         })
       });
       const data = await res.json();
+
       if (data.success) {
         setStatus("Attendance marked!");
         setCouponCode("");
@@ -85,6 +86,11 @@ function App() {
   return (
     <div className="container" style={{ maxWidth: 500, margin: "2rem auto" }}>
       <h2>Event Attendance</h2>
+      {
+        data.map(number => (
+          <li>{number}</li>
+        ))
+      }
       <AttendeeSearch
         search={search}
         onSearch={handleSearch}
