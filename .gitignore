@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+credentials.json
 backend/.env
-backend/routes/credentials.json
+backend/credentials.json

@@ -30,8 +30,9 @@ function writeDataFile(data) {
 let sheets = null;
 (async () => {
   try {
+    const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
     const auth = new google.auth.GoogleAuth({
-      keyFile: path.join(__dirname, "credentials.json"),
+      credentials,
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
 

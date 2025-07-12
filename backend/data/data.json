@@ -67,7 +67,7 @@
     "name": "Rahul",
     "phone": "9988007766",
     "email": "rahul@domain.com",
-    "marked": false
+    "marked": true
   },
   {
     "id": 10,
