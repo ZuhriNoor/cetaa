@@ -6,7 +6,7 @@ import AttendanceForm from "./AttendanceForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = "https://cetaa.onrender.com";
 
 interface AttendanceTrackerProps {
   category: string;
