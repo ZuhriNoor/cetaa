@@ -43,4 +43,14 @@ router.get("/:id", (req, res) => {
   res.json(attendee);
 });
 
+router.post("/", (req,res) => {
+  const success = true; 
+
+  if (success) {
+    res.status(200).json({ success: true });
+  } else {
+    res.status(400).json({ success: false, error: "Something went wrong" });
+  }})
+
+
 export default router;

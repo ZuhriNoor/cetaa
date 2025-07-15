@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { UserPlus, Loader2, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = "https://cetaa.onrender.com";
+const API_BASE = "http://localhost:5000";
 
 const NewRegistration = () => {
   const { toast } = useToast();
