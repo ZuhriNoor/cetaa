@@ -36,6 +36,7 @@ router.get("/", (req, res) => {
 
 // GET /attendees/:id
 router.get("/:id", (req, res) => {
+  console.log("came here")
   const attendees = getAttendees();
   const id = parseInt(req.params.id, 10);
   const attendee = attendees.find((a) => a.id === id);

@@ -6,7 +6,7 @@ import AttendanceForm from "./AttendanceForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const API_BASE = "https://cetaa.onrender.com";
+const API_BASE = import.meta.env.VITE_API_BASE
 
 interface AttendanceTrackerProps {
   category: string;

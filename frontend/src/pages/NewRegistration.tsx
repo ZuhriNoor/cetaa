@@ -9,9 +9,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { UserPlus, Loader2, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE = "http://localhost:5000";
+
+const API_BASE = import.meta.env.VITE_API_BASE
 
 const NewRegistration = () => {
+  console.log(API_BASE)
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
