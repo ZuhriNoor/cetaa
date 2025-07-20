@@ -10,7 +10,7 @@ import { UserPlus, Loader2, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 
-const API_BASE = import.meta.env.VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000'
 
 const NewRegistration = () => {
   console.log(API_BASE)
@@ -18,9 +18,10 @@ const NewRegistration = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    phone: "",
     category: "",
+    branch: "",
+    year: "",
+    seatNumber: "",
     address: "",
     emergencyContact: "",
     notes: ""
@@ -36,7 +37,7 @@ const NewRegistration = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.phone || !formData.category) {
+    if (!formData.name || !formData.category) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -65,9 +66,10 @@ const NewRegistration = () => {
         // Reset form
         setFormData({
           name: "",
-          email: "",
-          phone: "",
           category: "",
+          branch: "",
+          year: "",
+          seatNumber: "",
           address: "",
           emergencyContact: "",
           notes: ""
@@ -135,28 +137,37 @@ const NewRegistration = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address *</Label>
+                <Label htmlFor="branch">Branch</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={e => handleInputChange("email", e.target.value)}
-                  placeholder="Enter email address"
-                  required
+                  id="branch"
+                  type="text"
+                  value={formData.branch}
+                  onChange={e => handleInputChange("branch", e.target.value)}
+                  placeholder="Enter branch (e.g., Computer Science)"
                 />
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label htmlFor="year">Year</Label>
                 <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={e => handleInputChange("phone", e.target.value)}
-                  placeholder="Enter phone number"
-                  required
+                  id="year"
+                  type="text"
+                  value={formData.year}
+                  onChange={e => handleInputChange("year", e.target.value)}
+                  placeholder="Enter year (e.g., 1995)"
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="seatNumber">Seat Number</Label>
+              <Input
+                id="seatNumber"
+                type="text"
+                value={formData.seatNumber}
+                onChange={e => handleInputChange("seatNumber", e.target.value)}
+                placeholder="Enter seat number"
+              />
             </div>
 
             <div className="space-y-2">

@@ -6,7 +6,7 @@ import AttendanceForm from "./AttendanceForm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const API_BASE = import.meta.env.VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000'
 
 interface AttendanceTrackerProps {
   category: string;
@@ -46,7 +46,7 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
   const handleSelect = async (attendee: any) => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/attendees/${attendee._id || attendee.id}`);
+      const res = await fetch(`${API_BASE}/attendees/${attendee._id || attendee.id}?category=${category}`);
       const data = await res.json();
       setSelectedAttendee(data);
       setSearch(data.name);
@@ -60,8 +60,8 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
   };
 
   const handleMark = async () => {
-    if (!selectedAttendee || !paymentMethod) {
-      setStatus("Please select an attendee and payment method.");
+    if (!selectedAttendee) {
+      setStatus("Please select an attendee.");
       return;
     }
     
@@ -125,7 +125,7 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
           />
           
           {selectedAttendee && (
-            <AttendeeDetails attendee={selectedAttendee} />
+            <AttendeeDetails attendee={selectedAttendee} category={category} />
           )}
           
           {selectedAttendee && (
@@ -136,6 +136,7 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
               setPaymentMethod={setPaymentMethod}
               onMark={handleMark}
               loading={loading}
+              category={category}
             />
           )}
           

@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Karan Malhotra",
+    "category": "silver-jubilee",
+    "branch": "Computer Science",
+    "year": "2005",
+    "seatNumber": "CS05001",
+    "marked": false
+  },
+  {
+    "id": 2,
+    "name": "Meera Iyer",
+    "category": "silver-jubilee",
+    "branch": "Electrical Engineering",
+    "year": "2004",
+    "seatNumber": "EE04002",
+    "marked": false
+  },
+  {
+    "id": 3,
+    "name": "Arjun Reddy",
+    "category": "silver-jubilee",
+    "branch": "Mechanical Engineering",
+    "year": "2006",
+    "seatNumber": "ME06003",
+    "marked": true
+  },
+  {
+    "id": 4,
+    "name": "Neha Gupta",
+    "category": "silver-jubilee",
+    "branch": "Civil Engineering",
+    "year": "2003",
+    "seatNumber": "CE03004",
+    "marked": false
+  },
+  {
+    "id": 5,
+    "name": "Rahul Desai",
+    "category": "silver-jubilee",
+    "branch": "Computer Science",
+    "year": "2005",
+    "seatNumber": "CS05005",
+    "marked": false
+  }
+]

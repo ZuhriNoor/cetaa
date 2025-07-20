@@ -9,6 +9,8 @@ import GoldenJubilee from "./pages/GoldenJubilee";
 import SilverJubilee from "./pages/SilverJubilee";
 import Executives from "./pages/Executives";
 import NewRegistration from "./pages/NewRegistration";
+import AttendanceLogs from "./pages/AttendanceLogs";
+import SheetsLogs from "./pages/SheetsLogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/silver-jubilee" element={<SilverJubilee />} />
             <Route path="/executives" element={<Executives />} />
             <Route path="/new-registration" element={<NewRegistration />} />
+            <Route path="/attendance-logs" element={<AttendanceLogs />} />
+            <Route path="/sheets-logs" element={<SheetsLogs />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

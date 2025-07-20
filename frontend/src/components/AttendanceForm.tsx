@@ -14,6 +14,7 @@ interface AttendanceFormProps {
   setPaymentMethod: (value: string) => void;
   onMark: () => void;
   loading?: boolean;
+  category?: string;
 }
 
 function AttendanceForm({ 
@@ -22,7 +23,8 @@ function AttendanceForm({
   paymentMethod, 
   setPaymentMethod, 
   onMark,
-  loading 
+  loading,
+  category
 }: AttendanceFormProps) {
   return (
     <Card>
@@ -40,36 +42,41 @@ function AttendanceForm({
           }}
           className="space-y-4"
         >
-          <div className="space-y-2">
-            <Label htmlFor="coupon">Coupon Code (Optional)</Label>
-            <Input
-              id="coupon"
-              type="text"
-              value={couponCode}
-              onChange={e => setCouponCode(e.target.value)}
-              placeholder="Enter coupon code if available"
-            />
-          </div>
+          {category !== 'executives' && (
+            <div className="space-y-2">
+              <Label htmlFor="coupon">Coupon Code (Optional)</Label>
+              <Input
+                id="coupon"
+                type="text"
+                value={couponCode}
+                onChange={e => setCouponCode(e.target.value)}
+                placeholder="Enter coupon code if available"
+              />
+            </div>
+          )}
           
-          <div className="space-y-2">
-            <Label htmlFor="payment">Payment Method *</Label>
-            <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select payment method" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Cash">Cash</SelectItem>
-                <SelectItem value="UPI">UPI</SelectItem>
-                <SelectItem value="Card">Card</SelectItem>
-                <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {category !== 'executives' && (
+            <div className="space-y-2">
+              <Label htmlFor="payment">Payment Method (Optional)</Label>
+              <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select payment method (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cash">Cash</SelectItem>
+                  <SelectItem value="UPI">UPI</SelectItem>
+                  <SelectItem value="Card">Card</SelectItem>
+                  <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
+                  <SelectItem value="No Payment">No Payment</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           
           <Button 
             type="submit" 
             className="w-full" 
-            disabled={loading || !paymentMethod}
+            disabled={loading}
           >
             {loading ? (
               <>

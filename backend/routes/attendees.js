@@ -8,17 +8,27 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATA_PATH = path.join(__dirname, "..", "data", "data.json");
+// Add category-based data path mapping
+const getDataPath = (category) => {
+  const paths = {
+    'golden-jubilee': path.join(__dirname, "..", "data", "golden-jubilee.json"),
+    'silver-jubilee': path.join(__dirname, "..", "data", "silver-jubilee.json"),
+    'executives': path.join(__dirname, "..", "data", "executives.json")
+  };
+  return paths[category] || paths['golden-jubilee']; // fallback
+};
 
-const getAttendees = () => {
-  const raw = fs.readFileSync(DATA_PATH, "utf-8");
+const getAttendees = (category) => {
+  const dataPath = getDataPath(category);
+  const raw = fs.readFileSync(dataPath, "utf-8");
   return JSON.parse(raw);
 };
 
-// GET /attendees?search=prefix
+// GET /attendees?search=prefix&category=category
 router.get("/", (req, res) => {
   const search = req.query.search?.toLowerCase() || "";
-  const attendees = getAttendees();
+  const category = req.query.category || "golden-jubilee";
+  const attendees = getAttendees(category);
 
   if (!search) return res.json([]);
 
@@ -34,10 +44,10 @@ router.get("/", (req, res) => {
   res.json(results.slice(0, 5));
 });
 
-// GET /attendees/:id
+// GET /attendees/:id?category=category
 router.get("/:id", (req, res) => {
-  console.log("came here")
-  const attendees = getAttendees();
+  const category = req.query.category || "golden-jubilee";
+  const attendees = getAttendees(category);
   const id = parseInt(req.params.id, 10);
   const attendee = attendees.find((a) => a.id === id);
   if (!attendee) return res.status(404).json({ error: "Attendee not found" });

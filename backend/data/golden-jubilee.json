@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "Deepak Kumar",
+    "category": "golden-jubilee",
+    "branch": "Computer Science",
+    "year": "1995",
+    "seatNumber": "CS95001",
+    "marked": true
+  },
+  {
+    "id": 2,
+    "name": "Amit Sharma",
+    "category": "golden-jubilee",
+    "branch": "Electrical Engineering",
+    "year": "1994",
+    "seatNumber": "EE94002",
+    "marked": true
+  },
+  {
+    "id": 3,
+    "name": "Sneha Patel",
+    "category": "golden-jubilee",
+    "branch": "Mechanical Engineering",
+    "year": "1996",
+    "seatNumber": "ME96003",
+    "marked": true
+  },
+  {
+    "id": 4,
+    "name": "Ravi Verma",
+    "category": "golden-jubilee",
+    "branch": "Civil Engineering",
+    "year": "1993",
+    "seatNumber": "CE93004",
+    "marked": false
+  },
+  {
+    "id": 5,
+    "name": "Priya Singh",
+    "category": "golden-jubilee",
+    "branch": "Computer Science",
+    "year": "1995",
+    "seatNumber": "CS95005",
+    "marked": true
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "7/20/2025, 11:24:31 AM",
+    "id": 1,
+    "name": "Karan Malhotra",
+    "category": "silver-jubilee",
+    "branch": "Computer Science",
+    "seatNumber": "CS05001",
+    "year": "2005",
+    "couponCode": "w3",
+    "paymentMethod": "Bank Transfer"
+  },
+  {
+    "timestamp": "7/20/2025, 11:35:26 AM",
+    "id": 3,
+    "name": "Arjun Reddy",
+    "category": "silver-jubilee",
+    "branch": "Mechanical Engineering",
+    "seatNumber": "ME06003",
+    "year": "2006",
+    "couponCode": "23",
+    "paymentMethod": "Card"
+  }
+]

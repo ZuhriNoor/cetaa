@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Users, Crown, Award, UserPlus } from "lucide-react";
+import { Users, Crown, Award, UserPlus, FileText, FileSpreadsheet } from "lucide-react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -11,6 +11,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { path: "/silver-jubilee", label: "Silver Jubilee", icon: Award },
     { path: "/executives", label: "Executives", icon: Users },
     { path: "/new-registration", label: "New Registration", icon: UserPlus },
+    { path: "/attendance-logs", label: "Attendance Logs", icon: FileText },
+    { path: "/sheets-logs", label: "Sheets Logs", icon: FileSpreadsheet },
   ];
 
   return (

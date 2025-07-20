@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Anjali Sharma",
+    "category": "executives",
+    "marked": true
+  },
+  {
+    "id": 2,
+    "name": "Vikas Kumar",
+    "category": "executives",
+    "marked": false
+  },
+  {
+    "id": 3,
+    "name": "Divya Patel",
+    "category": "volunteers",
+    "marked": true
+  },
+  {
+    "id": 4,
+    "name": "Ramesh Singh",
+    "category": "executives",
+    "marked": true
+  },
+  {
+    "id": 5,
+    "name": "Kavya Reddy",
+    "category": "volunteers",
+    "marked": false
+  }
+]

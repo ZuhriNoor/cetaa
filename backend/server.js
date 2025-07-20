@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import attendeesRoutes from "./routes/attendees.js";
 import attendanceRoutes from "./routes/attendance.js";
+import sheetsRoutes from "./routes/sheets.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 app.use("/attendees", attendeesRoutes);
 app.use("/attendance", attendanceRoutes);
+app.use("/sheets", sheetsRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
