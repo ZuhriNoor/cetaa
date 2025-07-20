@@ -4,7 +4,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import { google } from "googleapis";
-import { log } from "console";
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
@@ -181,6 +180,91 @@ router.post("/", async (req, res) => {
   }
 });
 
+// POST /register - Register a new attendee and mark attendance
+router.post("/register", async (req, res) => {
+  const { name, branch, year, seatNumber, couponCode, paymentMethod, category } = req.body;
+
+  if (!name || !branch || !year || !seatNumber || !category) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  if (!['golden-jubilee', 'silver-jubilee'].includes(category)) {
+    return res.status(400).json({ error: "Invalid category" });
+  }
+
+  // Load attendees
+  const dataPath = getDataPath(category);
+  let attendees = [];
+  if (fs.existsSync(dataPath)) {
+    attendees = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+  }
+
+  // Generate new ID
+  const newId = attendees.length > 0 ? Math.max(...attendees.map(a => a.id || 0)) + 1 : 1;
+
+  // Create new attendee
+  const newAttendee = {
+    id: newId,
+    name,
+    category,
+    branch,
+    year,
+    seatNumber,
+    marked: true
+  };
+  attendees.push(newAttendee);
+  writeDataFile(attendees, category);
+
+  // Prepare row for logs and sheet
+  const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: true });
+  const row = [
+    timestamp,
+    newId,
+    name,
+    category,
+    branch,
+    seatNumber,
+    year,
+    couponCode || "",
+    paymentMethod || "No Payment"
+  ];
+
+  // Append to attendance log JSON
+  const attendanceLogPath = getAttendanceLogPath(category);
+  let logs = [];
+  if (fs.existsSync(attendanceLogPath)) {
+    logs = JSON.parse(fs.readFileSync(attendanceLogPath, "utf-8"));
+  }
+  logs.push({
+    timestamp: row[0],
+    id: row[1],
+    name: row[2],
+    category: row[3],
+    branch: row[4],
+    seatNumber: row[5],
+    year: row[6],
+    couponCode: row[7],
+    paymentMethod: row[8],
+  });
+  fs.writeFileSync(attendanceLogPath, JSON.stringify(logs, null, 2));
+
+  // Append to Google Sheet
+  if (!sheets) {
+    return res.status(500).json({ error: "Google Sheets not initialized" });
+  }
+  const sheetId = getSheetId(category);
+  try {
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: sheetId,
+      range: "Sheet1!A:I",
+      valueInputOption: "USER_ENTERED",
+      requestBody: { values: [row] },
+    });
+    res.json({ success: true, attendee: newAttendee });
+  } catch (err) {
+    console.error("❌ Google Sheets append failed (register):", err.message);
+    res.status(500).json({ error: "Failed to write to Google Sheet" });
+  }
+});
 
 
 // GET /attendance/:category - Get attendance log for a specific category

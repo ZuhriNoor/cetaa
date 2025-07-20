@@ -43,5 +43,14 @@
     "year": "2005",
     "seatNumber": "CS05005",
     "marked": false
+  },
+  {
+    "id": 6,
+    "name": "Test User2",
+    "category": "silver-jubilee",
+    "branch": "Electrical",
+    "year": "1994",
+    "seatNumber": "12",
+    "marked": true
   }
 ]

@@ -22,9 +22,8 @@ const NewRegistration = () => {
     branch: "",
     year: "",
     seatNumber: "",
-    address: "",
-    emergencyContact: "",
-    notes: ""
+    couponCode: "",
+    paymentMethod: ""
   });
 
   const handleInputChange = (field: string, value: string) => {
@@ -49,18 +48,26 @@ const NewRegistration = () => {
     setLoading(true);
     
     try {
-      const res = await fetch(`${API_BASE}/attendees`, {
+      const res = await fetch(`${API_BASE}/attendance/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          name: formData.name,
+          category: formData.category,
+          branch: formData.branch,
+          year: formData.year,
+          seatNumber: formData.seatNumber,
+          couponCode: formData.couponCode,
+          paymentMethod: formData.paymentMethod
+        })
       });
       
       const data = await res.json();
       
-      if (data.success || res.ok) {
+      if (data.success) {
         toast({
           title: "Registration Successful!",
-          description: `${formData.name} has been registered as a ${formData.category} member.`,
+          description: `${formData.name} has been registered as a ${formData.category.replace('-', ' ')} member and marked present.`,
         });
         
         // Reset form
@@ -70,9 +77,8 @@ const NewRegistration = () => {
           branch: "",
           year: "",
           seatNumber: "",
-          address: "",
-          emergencyContact: "",
-          notes: ""
+          couponCode: "",
+          paymentMethod: ""
         });
       } else {
         throw new Error(data.error || "Registration failed");
@@ -129,7 +135,6 @@ const NewRegistration = () => {
                   <SelectContent>
                     <SelectItem value="golden-jubilee">Golden Jubilee</SelectItem>
                     <SelectItem value="silver-jubilee">Silver Jubilee</SelectItem>
-                    <SelectItem value="executives">Executives & Volunteers</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -143,7 +148,7 @@ const NewRegistration = () => {
                   type="text"
                   value={formData.branch}
                   onChange={e => handleInputChange("branch", e.target.value)}
-                  placeholder="Enter branch (e.g., Computer Science)"
+                  placeholder="Enter branch"
                 />
               </div>
               
@@ -154,7 +159,7 @@ const NewRegistration = () => {
                   type="text"
                   value={formData.year}
                   onChange={e => handleInputChange("year", e.target.value)}
-                  placeholder="Enter year (e.g., 1995)"
+                  placeholder="Enter year"
                 />
               </div>
             </div>
@@ -171,36 +176,29 @@ const NewRegistration = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
-              <Textarea
-                id="address"
-                value={formData.address}
-                onChange={e => handleInputChange("address", e.target.value)}
-                placeholder="Enter complete address"
-                rows={3}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="emergency">Emergency Contact</Label>
+              <Label htmlFor="couponCode">Coupon Code (Optional)</Label>
               <Input
-                id="emergency"
+                id="couponCode"
                 type="text"
-                value={formData.emergencyContact}
-                onChange={e => handleInputChange("emergencyContact", e.target.value)}
-                placeholder="Emergency contact name and number"
+                value={formData.couponCode}
+                onChange={e => handleInputChange("couponCode", e.target.value)}
+                placeholder="Enter coupon code if available"
               />
             </div>
-
             <div className="space-y-2">
-              <Label htmlFor="notes">Additional Notes</Label>
-              <Textarea
-                id="notes"
-                value={formData.notes}
-                onChange={e => handleInputChange("notes", e.target.value)}
-                placeholder="Any additional information or special requirements"
-                rows={2}
-              />
+              <Label htmlFor="paymentMethod">Payment Method (Optional)</Label>
+              <Select value={formData.paymentMethod} onValueChange={value => handleInputChange("paymentMethod", value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select payment method (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Cash">Cash</SelectItem>
+                  <SelectItem value="UPI">UPI</SelectItem>
+                  <SelectItem value="Card">Card</SelectItem>
+                  <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
+                  <SelectItem value="No Payment">No Payment</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <Button 

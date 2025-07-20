@@ -43,5 +43,14 @@
     "year": "1995",
     "seatNumber": "CS95005",
     "marked": true
+  },
+  {
+    "id": 6,
+    "name": "Test User",
+    "category": "golden-jubilee",
+    "branch": "Mechanical",
+    "year": "2000",
+    "seatNumber": "32",
+    "marked": true
   }
 ]

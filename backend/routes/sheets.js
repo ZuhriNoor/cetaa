@@ -57,7 +57,6 @@ router.get("/:category", async (req, res) => {
   try {
     // Determine the range based on category
     const range = category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:I";
-    console.log("reached here");
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range: range,

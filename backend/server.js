@@ -13,8 +13,17 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, ".env") });
 
+const allowedOrigins = [
+  "http://localhost:8080",
+  "https://cetaa.vercel.app"
+];
+
 const app = express();
-app.use(cors({ origin: "https://cetaa.vercel.app" }));
+app.use(
+  cors({
+    origin: allowedOrigins
+  })
+);
 app.use(express.json());
 
 app.use((req, res, next) => {
