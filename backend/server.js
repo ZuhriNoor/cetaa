@@ -34,6 +34,7 @@ app.use((req, res, next) => {
 app.use("/attendees", attendeesRoutes);
 app.use("/attendance", attendanceRoutes);
 app.use("/sheets", sheetsRoutes);
+app.get("/ping", (req, res) => res.send("pong"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
