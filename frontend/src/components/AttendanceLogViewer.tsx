@@ -81,13 +81,13 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <h1 className="text-3xl font-bold text-gray-900">Attendance Logs</h1>
-          <Badge variant={getCategoryBadgeColor(selectedCategory) as any} className="text-sm">
+        <h1 className="text-3xl font-bold text-white">Attendance Logs</h1>
+        <div className="flex justify-center mt-1 mb-2">
+          <Badge variant={getCategoryBadgeColor(selectedCategory) as any} className="text-sm px-3 py-1 opacity-90">
             {getCategoryTitle(selectedCategory)}
           </Badge>
         </div>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-gray-200 max-w-2xl mx-auto">
           View attendance records for {getCategoryTitle(selectedCategory).toLowerCase()}
         </p>
       </div>
@@ -154,7 +154,7 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                   {logs.map((log, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-mono text-sm">
-                        {new Date(log.timestamp).toLocaleString()}
+                        {log.timestamp || '-'}
                       </TableCell>
                       <TableCell>{log.id}</TableCell>
                       <TableCell className="font-medium">{log.name}</TableCell>

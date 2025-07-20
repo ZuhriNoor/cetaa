@@ -20,20 +20,22 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<GoldenJubilee />} />
-            <Route path="/golden-jubilee" element={<GoldenJubilee />} />
-            <Route path="/silver-jubilee" element={<SilverJubilee />} />
-            <Route path="/executives" element={<Executives />} />
-            <Route path="/new-registration" element={<NewRegistration />} />
-            <Route path="/attendance-logs" element={<AttendanceLogs />} />
-            <Route path="/sheets-logs" element={<SheetsLogs />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black w-full">
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<GoldenJubilee />} />
+              <Route path="/golden-jubilee" element={<GoldenJubilee />} />
+              <Route path="/silver-jubilee" element={<SilverJubilee />} />
+              <Route path="/executives" element={<Executives />} />
+              <Route path="/new-registration" element={<NewRegistration />} />
+              <Route path="/attendance-logs" element={<AttendanceLogs />} />
+              <Route path="/sheets-logs" element={<SheetsLogs />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );

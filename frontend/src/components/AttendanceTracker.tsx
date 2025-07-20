@@ -102,13 +102,16 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-          <Badge variant={badgeColor as any} className="text-sm">
+        <h1 className="text-3xl font-bold text-white">{title}</h1>
+        <div className="flex justify-center mt-1 mb-2">
+          <Badge 
+            variant={badgeColor as any} 
+            className={`text-sm px-3 py-1 opacity-90 ${category === 'executives' ? 'text-white' : ''}`}
+          >
             {category}
           </Badge>
         </div>
-        <p className="text-gray-600 max-w-2xl mx-auto">{description}</p>
+        <p className="text-gray-200 max-w-2xl mx-auto">{description}</p>
       </div>
 
       <Card className="max-w-2xl mx-auto">

@@ -99,10 +99,10 @@ const NewRegistration = () => {
     <div className="space-y-6">
       <div className="text-center">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <h1 className="text-3xl font-bold text-gray-900">New Registration</h1>
-          <UserPlus className="w-8 h-8 text-blue-600" />
+          <h1 className="text-3xl font-bold text-white">New Registration</h1>
+          <UserPlus className="w-8 h-8 text-white" />
         </div>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-gray-200 max-w-2xl mx-auto">
           Register new attendees for the event. Please fill in all required information to complete the registration process.
         </p>
       </div>
@@ -203,17 +203,18 @@ const NewRegistration = () => {
 
             <Button 
               type="submit" 
-              className="w-full" 
+              className="w-full flex items-center justify-center gap-2 font-semibold py-3 text-base"
+              variant="default"
               disabled={loading}
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4" />
                   Registering...
                 </>
               ) : (
                 <>
-                  <CheckCircle className="w-4 h-4 mr-2" />
+                  <CheckCircle className="w-4 h-4" />
                   Register Attendee
                 </>
               )}

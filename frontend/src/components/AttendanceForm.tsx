@@ -75,17 +75,18 @@ function AttendanceForm({
           
           <Button 
             type="submit" 
-            className="w-full" 
+            className="w-full flex items-center justify-center gap-2 font-semibold py-3 text-base"
+            variant="default"
             disabled={loading}
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                <Loader2 className="w-4 h-4" />
                 Marking Attendance...
               </>
             ) : (
               <>
-                <CheckCircle className="w-4 h-4 mr-2" />
+                <CheckCircle className="w-4 h-4" />
                 Mark Attendance
               </>
             )}
