@@ -107,7 +107,7 @@ router.post("/", async (req, res) => {
   if (category === 'executives') {
     // New format: Timestamp | ID | Name | Category | Marked
     row = [
-      new Date().toLocaleString(),
+      new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       attendee.id,
       attendee.name,
       attendee.category,
@@ -118,7 +118,7 @@ router.post("/", async (req, res) => {
     // For golden-jubilee and silver-jubilee
     // New format: Timestamp | ID | Name | Category | Branch | Seat No | Year | Coupon code | Payment method
     row = [
-      new Date().toLocaleString(),
+      new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       attendee.id,
       attendee.name,
       attendee.category,
