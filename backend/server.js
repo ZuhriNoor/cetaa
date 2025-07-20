@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: "https://cetaa.vercel.app" }));
 app.use(express.json());
 
 app.use((req, res, next) => {
