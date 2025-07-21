@@ -51,19 +51,6 @@ Columns: Timestamp, ID, Name, Category, Marked
 - `GET /sheets/:category` - Get data from Google Sheets for a specific category
 - `GET /sheets` - Get data from all Google Sheets
 
-## Key Changes Made
-
-1. **Separate JSON files** for each category with different data structures
-2. **Category-based Google Sheets** with different column layouts
-3. **Updated backend routes** to handle category-specific data
-4. **Modified frontend components** to display category-specific fields
-5. **Enhanced search functionality** that works with category-specific data
-6. **Payment is now optional** for all categories
-7. **Executives and volunteers** have no payment requirement
-8. **New executive attendance format**: Timestamp, ID, Name, Category, Marked
-9. **Updated Golden/Silver Jubilee format**: Timestamp, ID, Name, Category, Branch, Seat No, Year, Coupon Code, Payment Method
-10. **Separate attendance log files** for each category for better organization
-11. **Google Sheets data viewer** to display live data from Google Sheets
 
 ## Running the Application
 
@@ -71,17 +58,3 @@ Columns: Timestamp, ID, Name, Category, Marked
 2. Start the backend: `cd backend && npm start`
 3. Start the frontend: `cd frontend && npm run dev`
 4. Access the application at `http://localhost:5173`
-
-## Notes
-
-- All existing flows remain intact
-- Search functionality works across all categories
-- Attendance marking updates the appropriate Google Sheet based on category
-- New registration form supports both data structures
-- Payment is now optional for all categories
-- Executives and volunteers do not require payment information
-- Executive attendance uses simplified format without payment fields
-- Attendance logs are now separated by category for better organization
-- New API endpoints available to view attendance by category
-- Google Sheets data can be viewed directly in the application
-- Real-time data synchronization with Google Sheets 
