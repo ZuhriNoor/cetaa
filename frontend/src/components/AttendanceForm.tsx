@@ -12,6 +12,12 @@ interface AttendanceFormProps {
   setCouponCode: (value: string) => void;
   paymentMethod: string;
   setPaymentMethod: (value: string) => void;
+  transactionLastDigit: string;
+  setTransactionLastDigit: (value: string) => void;
+  numberOfFamilyMembers: string;
+  setNumberOfFamilyMembers: (value: string) => void;
+  amount: string;
+  setAmount: (value: string) => void;
   onMark: () => void;
   loading?: boolean;
   category?: string;
@@ -22,6 +28,12 @@ function AttendanceForm({
   setCouponCode, 
   paymentMethod, 
   setPaymentMethod, 
+  transactionLastDigit,
+  setTransactionLastDigit,
+  numberOfFamilyMembers,
+  setNumberOfFamilyMembers,
+  amount,
+  setAmount,
   onMark,
   loading,
   category
@@ -42,7 +54,7 @@ function AttendanceForm({
           }}
           className="space-y-4"
         >
-          {category !== 'executives' && (
+          {category !== 'executives' && category !== 'other-alumni' && (
             <div className="space-y-2">
               <Label htmlFor="coupon">Coupon Code (Optional)</Label>
               <Input
@@ -54,8 +66,7 @@ function AttendanceForm({
               />
             </div>
           )}
-          
-          {category !== 'executives' && (
+          {category !== 'executives' && category !== 'other-alumni' && (
             <div className="space-y-2">
               <Label htmlFor="payment">Payment Method (Optional)</Label>
               <Select value={paymentMethod} onValueChange={setPaymentMethod}>
@@ -72,7 +83,44 @@ function AttendanceForm({
               </Select>
             </div>
           )}
-          
+          {(category === 'golden-jubilee' || category === 'silver-jubilee' || category === 'other-alumni') && (
+            <div className="space-y-2">
+              <Label htmlFor="transactionLastDigit">Last Digit of Transaction (Optional)</Label>
+              <Input
+                id="transactionLastDigit"
+                type="text"
+                value={transactionLastDigit}
+                onChange={e => setTransactionLastDigit(e.target.value)}
+                placeholder="Enter last digit of transaction if available"
+              />
+            </div>
+          )}
+          {(['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) && (
+            <div className="space-y-2">
+              <Label htmlFor="numberOfFamilyMembers">Number of Family Members (Optional)</Label>
+              <Input
+                id="numberOfFamilyMembers"
+                type="number"
+                min="0"
+                value={numberOfFamilyMembers}
+                onChange={e => setNumberOfFamilyMembers(e.target.value)}
+                placeholder="Enter number of family members if any"
+              />
+            </div>
+          )}
+          {(['silver-jubilee', 'executives', 'other-alumni'].includes(category)) && (
+            <div className="space-y-2">
+              <Label htmlFor="amount">Amount (Optional)</Label>
+              <Input
+                id="amount"
+                type="number"
+                min="0"
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="Enter amount if any"
+              />
+            </div>
+          )}
           <Button 
             type="submit" 
             className="w-full flex items-center justify-center gap-2 font-semibold py-3 text-base"

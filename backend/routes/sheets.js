@@ -93,7 +93,8 @@ router.get("/:category", async (req, res) => {
         paymentMethod: row[8] || ''
       }));
     }
-
+    // Sort by id numerically
+    data.sort((a, b) => Number(a.id) - Number(b.id));
     res.json(data);
   } catch (err) {
     console.error("❌ Google Sheets read failed:", err.message);
@@ -144,20 +145,22 @@ router.get("/", async (req, res) => {
               paymentMethod: row[8] || ''
             }));
           }
+          // Sort by id numerically
+          allData[category].sort((a, b) => Number(a.id) - Number(b.id));
         } else {
           allData[category] = [];
         }
       } catch (err) {
-        console.error(`❌ Failed to read ${category} sheet:`, err.message);
+        console.error(`\u274c Failed to read ${category} sheet:`, err.message);
         allData[category] = [];
       }
     }
     
     res.json(allData);
   } catch (err) {
-    console.error("❌ Google Sheets read failed:", err.message);
+    console.error("\u274c Google Sheets read failed:", err.message);
     res.status(500).json({ error: "Failed to read from Google Sheets" });
   }
 });
 
-export default router; 
+export default router;

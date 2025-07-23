@@ -23,6 +23,9 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
   const [paymentMethod, setPaymentMethod] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
+  const [transactionLastDigit, setTransactionLastDigit] = useState("");
+  const [numberOfFamilyMembers, setNumberOfFamilyMembers] = useState("");
+  const [amount, setAmount] = useState("");
 
   const handleSearch = async (value: string) => {
     setSearch(value);
@@ -74,7 +77,10 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
           attendeeId: selectedAttendee._id || selectedAttendee.id,
           couponCode,
           paymentMethod,
-          category
+          category,
+          transactionLastDigit,
+          numberOfFamilyMembers: ['silver-jubilee', 'executives', 'other-alumni'].includes(category) ? numberOfFamilyMembers : undefined,
+          amount: ['silver-jubilee', 'executives', 'other-alumni'].includes(category) ? amount : undefined
         })
       });
       const data = await res.json();
@@ -83,6 +89,9 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
         setStatus("Attendance marked successfully!");
         setCouponCode("");
         setPaymentMethod("");
+        setTransactionLastDigit("");
+        setNumberOfFamilyMembers("");
+        setAmount("");
         setTimeout(() => {
           setSelectedAttendee(null);
           setSearch("");
@@ -137,6 +146,12 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
               setCouponCode={setCouponCode}
               paymentMethod={paymentMethod}
               setPaymentMethod={setPaymentMethod}
+              transactionLastDigit={transactionLastDigit}
+              setTransactionLastDigit={setTransactionLastDigit}
+              numberOfFamilyMembers={numberOfFamilyMembers}
+              setNumberOfFamilyMembers={setNumberOfFamilyMembers}
+              amount={amount}
+              setAmount={setAmount}
               onMark={handleMark}
               loading={loading}
               category={category}

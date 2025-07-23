@@ -18,7 +18,8 @@ const getAttendanceLogPath = (category) => {
   const paths = {
     'golden-jubilee': path.join(__dirname, "..", "data", "golden-jubilee-attendance.json"),
     'silver-jubilee': path.join(__dirname, "..", "data", "silver-jubilee-attendance.json"),
-    'executives': path.join(__dirname, "..", "data", "executives-attendance.json")
+    'executives': path.join(__dirname, "..", "data", "executives-attendance.json"),
+    'other-alumni': path.join(__dirname, "..", "data", "other-alumni-attendance.json")
   };
   return paths[category] || paths['golden-jubilee']; // fallback
 };
@@ -28,7 +29,8 @@ const getDataPath = (category) => {
   const paths = {
     'golden-jubilee': path.join(__dirname, "..", "data", "golden-jubilee.json"),
     'silver-jubilee': path.join(__dirname, "..", "data", "silver-jubilee.json"),
-    'executives': path.join(__dirname, "..", "data", "executives.json")
+    'executives': path.join(__dirname, "..", "data", "executives.json"),
+    'other-alumni': path.join(__dirname, "..", "data", "other-alumni.json")
   };
   return paths[category] || paths['golden-jubilee']; // fallback
 };
@@ -38,7 +40,8 @@ const getSheetId = (category) => {
   const sheetIds = {
     'golden-jubilee': process.env.GOOGLE_SHEETS_ID1,
     'silver-jubilee': process.env.GOOGLE_SHEETS_ID2,
-    'executives': process.env.GOOGLE_SHEETS_ID3
+    'executives': process.env.GOOGLE_SHEETS_ID3,
+    'other-alumni': process.env.GOOGLE_SHEETS_ID4
   };
   return sheetIds[category] || process.env.GOOGLE_SHEETS_ID1;
 };
@@ -73,10 +76,99 @@ let sheets = null;
   }
 })();
 
+const queueFilePath = path.join(__dirname, "..", "data", "sheets-queue.json");
+
+// Helper to load queue from file
+function loadSheetsQueue() {
+  try {
+    if (fs.existsSync(queueFilePath)) {
+      const raw = fs.readFileSync(queueFilePath, "utf-8");
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error("Failed to load sheets queue from file:", err);
+  }
+  return [];
+}
+// Helper to save queue to file
+function saveSheetsQueue(queue) {
+  try {
+    fs.writeFileSync(queueFilePath, JSON.stringify(queue, null, 2));
+  } catch (err) {
+    console.error("Failed to save sheets queue to file:", err);
+  }
+}
+
+// --- Google Sheets File-Based Write Queue Implementation ---
+let sheetsWriteQueue = loadSheetsQueue();
+let isProcessingQueue = false;
+
+// Helper to process the queue in batches
+async function processSheetsQueue() {
+  if (isProcessingQueue || sheetsWriteQueue.length === 0 || !sheets) return;
+  isProcessingQueue = true;
+  const batch = sheetsWriteQueue.slice(); // copy all
+
+  // Group by category and sheetId
+  const grouped = {};
+  for (const item of batch) {
+    const { category, row } = item;
+    if (!grouped[category]) grouped[category] = [];
+    grouped[category].push(row);
+  }
+
+  let processedIndices = [];
+  for (const category of Object.keys(grouped)) {
+    const sheetId = getSheetId(category);
+    const range = category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:K";
+    let retries = 0;
+    let success = false;
+    const rows = grouped[category];
+    // Find indices in the queue for these rows
+    const indices = batch
+      .map((item, idx) => (item.category === category && rows.includes(item.row) ? idx : -1))
+      .filter(idx => idx !== -1);
+    while (!success && retries < 5) {
+      try {
+        await sheets.spreadsheets.values.append({
+          spreadsheetId: sheetId,
+          range,
+          valueInputOption: "USER_ENTERED",
+          requestBody: { values: rows },
+        });
+        success = true;
+      } catch (err) {
+        if (err.code === 429 || err.code === 403 || err.code === 503) {
+          // Rate limit or quota error, exponential backoff
+          const wait = Math.pow(2, retries) * 1000 + Math.random() * 1000;
+          await new Promise(res => setTimeout(res, wait));
+          retries++;
+        } else {
+          console.error(`Google Sheets batch append failed for ${category}:`, err.message);
+          break;
+        }
+      }
+    }
+    if (success) {
+      processedIndices = processedIndices.concat(indices);
+    }
+    // If not successful, keep those items in the queue for next time
+  }
+  // Remove processed items from the queue
+  if (processedIndices.length > 0) {
+    sheetsWriteQueue = sheetsWriteQueue.filter((_, idx) => !processedIndices.includes(idx));
+    saveSheetsQueue(sheetsWriteQueue);
+  }
+  isProcessingQueue = false;
+}
+// Run the queue processor every 10 seconds
+setInterval(processSheetsQueue, 10000);
+// --- End Google Sheets File-Based Write Queue Implementation ---
+
 // POST /attendance
 router.post("/", async (req, res) => {
 
-  const { attendeeId, couponCode, paymentMethod, category } = req.body;
+  const { attendeeId, couponCode, paymentMethod, category, receiptNumber, transactionLastDigit, numberOfFamilyMembers, amount } = req.body;
 
   if (!attendeeId || !category) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -84,7 +176,6 @@ router.post("/", async (req, res) => {
 
   // Payment is optional for all categories
   const isPaymentRequired = false;
-
 
   const attendees = getAttendees(category);
 
@@ -98,24 +189,49 @@ router.post("/", async (req, res) => {
     return res.status(404).json({ error: "Attendee already marked!!" });
   }
 
+  // Add new fields if provided
+  if (receiptNumber !== undefined) attendee.receiptNumber = receiptNumber;
+  if (transactionLastDigit !== undefined) attendee.transactionLastDigit = transactionLastDigit;
+  if (category === 'silver-jubilee' || category === 'executives' || category === 'other-alumni') {
+    if (numberOfFamilyMembers !== undefined) attendee.numberOfFamilyMembers = numberOfFamilyMembers;
+    if (amount !== undefined) attendee.amount = amount;
+  }
+
   attendee.marked = true;
   writeDataFile(attendees, category);
 
   // Create row based on category
   let row;
   if (category === 'executives') {
-    // New format: Timestamp | ID | Name | Category | Marked
+    // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount
     row = [
       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       attendee.id,
       attendee.name,
       attendee.category,
-      "Yes"
+      "Yes",
+      numberOfFamilyMembers || "",
+      amount || ""
+    ];
+  } else if (category === 'other-alumni') {
+    // Format: Timestamp | ID | Name | Category | Branch | Year | Coupon code | Payment method | Receipt Number | Last Digit of Transaction | Number of Family Members | Amount
+    row = [
+      new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+      attendee.id,
+      attendee.name,
+      attendee.category,
+      attendee.branch,
+      attendee.year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      receiptNumber || "",
+      transactionLastDigit || "",
+      numberOfFamilyMembers || "",
+      amount || ""
     ];
   } else {
-    
     // For golden-jubilee and silver-jubilee
-    // New format: Timestamp | ID | Name | Category | Branch | Seat No | Year | Coupon code | Payment method
+    // New format: Timestamp | ID | Name | Category | Branch | Seat No | Year | Coupon code | Payment method | Receipt Number | Last Digit of Transaction | Number of Family Members | Amount
     row = [
       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       attendee.id,
@@ -125,7 +241,11 @@ router.post("/", async (req, res) => {
       attendee.seatNumber,
       attendee.year,
       couponCode || "",
-      paymentMethod || "No Payment"
+      paymentMethod || "No Payment",
+      receiptNumber || "",
+      transactionLastDigit || "",
+      category === 'silver-jubilee' ? (numberOfFamilyMembers || "") : "",
+      category === 'silver-jubilee' ? (amount || "") : ""
     ];
   }
 
@@ -135,14 +255,31 @@ router.post("/", async (req, res) => {
   if (fs.existsSync(attendanceLogPath)) {
     logs = JSON.parse(fs.readFileSync(attendanceLogPath, "utf-8"));
   }
-  
+
   if (category === 'executives') {
     logs.push({
       timestamp: row[0],
       id: row[1],
       name: row[2],
       category: row[3],
-      marked: row[4]
+      marked: row[4],
+      numberOfFamilyMembers: row[5],
+      amount: row[6]
+    });
+  } else if (category === 'other-alumni') {
+    logs.push({
+      timestamp: row[0],
+      id: row[1],
+      name: row[2],
+      category: row[3],
+      branch: row[4],
+      year: row[5],
+      couponCode: row[6],
+      paymentMethod: row[7],
+      receiptNumber: row[8],
+      transactionLastDigit: row[9],
+      numberOfFamilyMembers: row[10],
+      amount: row[11]
     });
   } else {
     logs.push({
@@ -155,39 +292,31 @@ router.post("/", async (req, res) => {
       year: row[6],
       couponCode: row[7],
       paymentMethod: row[8],
+      receiptNumber: row[9],
+      transactionLastDigit: row[10],
+      numberOfFamilyMembers: row[11],
+      amount: row[12]
     });
   }
   fs.writeFileSync(attendanceLogPath, JSON.stringify(logs, null, 2));
 
-  // Also append to Google Sheet with category-specific ID
-  if (!sheets) {
-    return res.status(500).json({ error: "Google Sheets not initialized" });
+  // Instead of writing to Google Sheets immediately, queue the row
+  if (category === 'executives' || category === 'golden-jubilee' || category === 'silver-jubilee' || category === 'other-alumni') {
+    sheetsWriteQueue.push({ category, row });
+    saveSheetsQueue(sheetsWriteQueue);
   }
-
-  const sheetId = getSheetId(category);
-
-  try {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:I",
-      valueInputOption: "USER_ENTERED",
-      requestBody: { values: [row] },
-    });
-    res.json({ success: true });
-  } catch (err) {
-    console.error("❌ Google Sheets append failed:", err.message);
-    res.status(500).json({ error: "Failed to write to Google Sheet" });
-  }
+  // Respond to user immediately
+  res.json({ success: true });
 });
 
 // POST /register - Register a new attendee and mark attendance
 router.post("/register", async (req, res) => {
-  const { name, branch, year, seatNumber, couponCode, paymentMethod, category } = req.body;
+  const { name, branch, year, seatNumber, couponCode, paymentMethod, category, receiptNumber, transactionLastDigit, numberOfFamilyMembers, amount } = req.body;
 
-  if (!name || !branch || !year || !seatNumber || !category) {
+  if (!name || !branch || !year || !category) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-  if (!['golden-jubilee', 'silver-jubilee'].includes(category)) {
+  if (!['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) {
     return res.status(400).json({ error: "Invalid category" });
   }
 
@@ -208,25 +337,61 @@ router.post("/register", async (req, res) => {
     category,
     branch,
     year,
-    seatNumber,
-    marked: true
+    seatNumber: seatNumber || "",
+    marked: true,
+    receiptNumber: receiptNumber || "",
+    transactionLastDigit: transactionLastDigit || "",
+    numberOfFamilyMembers: (category === 'golden-jubilee' || category === 'silver-jubilee' || category === 'executives' || category === 'other-alumni') ? (numberOfFamilyMembers || "") : "",
+    amount: (category === 'silver-jubilee' || category === 'executives' || category === 'other-alumni') ? (amount || "") : ""
   };
   attendees.push(newAttendee);
   writeDataFile(attendees, category);
 
   // Prepare row for logs and sheet
   const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: true });
-  const row = [
-    timestamp,
-    newId,
-    name,
-    category,
-    branch,
-    seatNumber,
-    year,
-    couponCode || "",
-    paymentMethod || "No Payment"
-  ];
+  let row;
+  if (category === 'executives') {
+    row = [
+      timestamp,
+      newId,
+      name,
+      category,
+      "Yes",
+      numberOfFamilyMembers || "",
+      amount || ""
+    ];
+  } else if (category === 'other-alumni') {
+    row = [
+      timestamp,
+      newId,
+      name,
+      category,
+      branch,
+      year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      receiptNumber || "",
+      transactionLastDigit || "",
+      numberOfFamilyMembers || "",
+      amount || ""
+    ];
+  } else {
+    row = [
+      timestamp,
+      newId,
+      name,
+      category,
+      branch,
+      seatNumber || "",
+      year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      receiptNumber || "",
+      transactionLastDigit || "",
+      (category === 'silver-jubilee' || category === 'golden-jubilee') ? (numberOfFamilyMembers || "") : "",
+      category === 'silver-jubilee' ? (amount || "") : ""
+    ];
+  }
 
   // Append to attendance log JSON
   const attendanceLogPath = getAttendanceLogPath(category);
@@ -239,31 +404,19 @@ router.post("/register", async (req, res) => {
     id: row[1],
     name: row[2],
     category: row[3],
-    branch: row[4],
-    seatNumber: row[5],
-    year: row[6],
-    couponCode: row[7],
-    paymentMethod: row[8],
+    marked: row[4],
+    numberOfFamilyMembers: row[5],
+    amount: row[6]
   });
   fs.writeFileSync(attendanceLogPath, JSON.stringify(logs, null, 2));
 
-  // Append to Google Sheet
-  if (!sheets) {
-    return res.status(500).json({ error: "Google Sheets not initialized" });
+  // Instead of writing to Google Sheets immediately, queue the row
+  if (category === 'golden-jubilee' || category === 'silver-jubilee' || category === 'executives' || category === 'other-alumni') {
+    sheetsWriteQueue.push({ category, row });
+    saveSheetsQueue(sheetsWriteQueue);
   }
-  const sheetId = getSheetId(category);
-  try {
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: "Sheet1!A:I",
-      valueInputOption: "USER_ENTERED",
-      requestBody: { values: [row] },
-    });
-    res.json({ success: true, attendee: newAttendee });
-  } catch (err) {
-    console.error("❌ Google Sheets append failed (register):", err.message);
-    res.status(500).json({ error: "Failed to write to Google Sheet" });
-  }
+  // Respond to user immediately
+  res.json({ success: true, attendee: newAttendee });
 });
 
 
@@ -271,7 +424,7 @@ router.post("/register", async (req, res) => {
 router.get("/:category", (req, res) => {
   const { category } = req.params;
   
-  if (!['golden-jubilee', 'silver-jubilee', 'executives'].includes(category)) {
+  if (!['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) {
     return res.status(400).json({ error: "Invalid category" });
   }
   
@@ -295,7 +448,7 @@ router.get("/", (req, res) => {
   try {
     const allLogs = {};
     
-    ['golden-jubilee', 'silver-jubilee', 'executives'].forEach(category => {
+    ['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].forEach(category => {
       const attendanceLogPath = getAttendanceLogPath(category);
       if (fs.existsSync(attendanceLogPath)) {
         allLogs[category] = JSON.parse(fs.readFileSync(attendanceLogPath, "utf-8"));

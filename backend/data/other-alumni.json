@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "name": "tset alumni",
+    "category": "other-alumni",
+    "branch": "ME",
+    "year": "1996",
+    "seatNumber": "",
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "4",
+    "amount": "566"
+  },
+  {
+    "id": 2,
+    "name": "Deepao",
+    "category": "other-alumni",
+    "branch": "Electrical",
+    "year": "2000",
+    "seatNumber": "",
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "3",
+    "amount": "800"
+  }
+]

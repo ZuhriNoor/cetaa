@@ -22,6 +22,10 @@ interface AttendanceLog {
   couponCode?: string;
   paymentMethod?: string;
   marked?: string;
+  receiptNumber?: string;
+  transactionLastDigit?: string;
+  numberOfFamilyMembers?: string;
+  amount?: string;
 }
 
 function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
@@ -108,6 +112,7 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                   <SelectItem value="golden-jubilee">Golden Jubilee</SelectItem>
                   <SelectItem value="silver-jubilee">Silver Jubilee</SelectItem>
                   <SelectItem value="executives">Executives & Volunteers</SelectItem>
+                  <SelectItem value="other-alumni">Other alumni</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -136,17 +141,28 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                     <TableHead>ID</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Category</TableHead>
-                    {selectedCategory !== 'executives' && (
+                    {selectedCategory === 'executives' && <TableHead>Status</TableHead>}
+                    {selectedCategory === 'executives' && <TableHead>Last Digit of Transaction</TableHead>}
+                    {selectedCategory === 'executives' && <TableHead>Number of Family Members</TableHead>}
+                    {selectedCategory === 'executives' && <TableHead>Amount</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Branch</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Year</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Coupon Code</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Payment Method</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Last Digit of Transaction</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Number of Family Members</TableHead>}
+                    {selectedCategory === 'other-alumni' && <TableHead>Amount</TableHead>}
+                    {['golden-jubilee', 'silver-jubilee'].includes(selectedCategory) && (
                       <>
                         <TableHead>Branch</TableHead>
                         <TableHead>Seat No</TableHead>
                         <TableHead>Year</TableHead>
                         <TableHead>Coupon Code</TableHead>
                         <TableHead>Payment Method</TableHead>
+                        <TableHead>Last Digit of Transaction</TableHead>
+                        {selectedCategory === 'silver-jubilee' && <TableHead>Number of Family Members</TableHead>}
+                        {selectedCategory === 'silver-jubilee' && <TableHead>Amount</TableHead>}
                       </>
-                    )}
-                    {selectedCategory === 'executives' && (
-                      <TableHead>Status</TableHead>
                     )}
                   </TableRow>
                 </TableHeader>
@@ -163,21 +179,28 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                           {log.category}
                         </Badge>
                       </TableCell>
-                      {selectedCategory !== 'executives' && (
+                      {selectedCategory === 'executives' && <TableCell>{log.marked}</TableCell>}
+                      {selectedCategory === 'executives' && <TableCell>{log.transactionLastDigit || '-'}</TableCell>}
+                      {selectedCategory === 'executives' && <TableCell>{log.numberOfFamilyMembers || '-'}</TableCell>}
+                      {selectedCategory === 'executives' && <TableCell>{log.amount || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.branch || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.year || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.couponCode || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.paymentMethod || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.transactionLastDigit || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.numberOfFamilyMembers || '-'}</TableCell>}
+                      {selectedCategory === 'other-alumni' && <TableCell>{log.amount || '-'}</TableCell>}
+                      {['golden-jubilee', 'silver-jubilee'].includes(selectedCategory) && (
                         <>
                           <TableCell>{log.branch}</TableCell>
                           <TableCell>{log.seatNumber}</TableCell>
                           <TableCell>{log.year}</TableCell>
                           <TableCell>{log.couponCode || "-"}</TableCell>
                           <TableCell>{log.paymentMethod || "-"}</TableCell>
+                          <TableCell>{log.transactionLastDigit || "-"}</TableCell>
+                          {selectedCategory === 'silver-jubilee' && <TableCell>{log.numberOfFamilyMembers || "-"}</TableCell>}
+                          {selectedCategory === 'silver-jubilee' && <TableCell>{log.amount || "-"}</TableCell>}
                         </>
-                      )}
-                      {selectedCategory === 'executives' && (
-                        <TableCell>
-                          <Badge variant="default" className="text-xs">
-                            {log.marked}
-                          </Badge>
-                        </TableCell>
                       )}
                     </TableRow>
                   ))}

@@ -1,32 +1,24 @@
 [
   {
     "id": 1,
-    "name": "Anjali Sharma",
+    "name": "Executive One",
     "category": "executives",
-    "marked": true
+    "branch": "Management",
+    "year": "2010",
+    "seatNumber": "E001",
+    "marked": false,
+    "numberOfFamilyMembers": "",
+    "amount": ""
   },
   {
     "id": 2,
-    "name": "Vikas Kumar",
+    "name": "Executive Two",
     "category": "executives",
-    "marked": false
-  },
-  {
-    "id": 3,
-    "name": "Divya Patel",
-    "category": "volunteers",
-    "marked": true
-  },
-  {
-    "id": 4,
-    "name": "Ramesh Singh",
-    "category": "executives",
-    "marked": true
-  },
-  {
-    "id": 5,
-    "name": "Kavya Reddy",
-    "category": "volunteers",
-    "marked": false
+    "branch": "Operations",
+    "year": "2012",
+    "seatNumber": "E002",
+    "marked": false,
+    "numberOfFamilyMembers": "",
+    "amount": ""
   }
 ]

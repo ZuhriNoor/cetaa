@@ -6,7 +6,11 @@
     "branch": "Computer Science",
     "year": "2005",
     "seatNumber": "CS05001",
-    "marked": false
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "",
+    "amount": ""
   },
   {
     "id": 2,
@@ -15,7 +19,11 @@
     "branch": "Electrical Engineering",
     "year": "2004",
     "seatNumber": "EE04002",
-    "marked": false
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "23342",
+    "numberOfFamilyMembers": "1",
+    "amount": "500"
   },
   {
     "id": 3,
@@ -24,7 +32,11 @@
     "branch": "Mechanical Engineering",
     "year": "2006",
     "seatNumber": "ME06003",
-    "marked": true
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "",
+    "amount": ""
   },
   {
     "id": 4,
@@ -33,7 +45,11 @@
     "branch": "Civil Engineering",
     "year": "2003",
     "seatNumber": "CE03004",
-    "marked": false
+    "marked": false,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "",
+    "amount": ""
   },
   {
     "id": 5,
@@ -42,7 +58,11 @@
     "branch": "Computer Science",
     "year": "2005",
     "seatNumber": "CS05005",
-    "marked": false
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "1224",
+    "numberOfFamilyMembers": "3",
+    "amount": "500"
   },
   {
     "id": 6,
@@ -51,6 +71,10 @@
     "branch": "Electrical",
     "year": "1994",
     "seatNumber": "12",
-    "marked": true
+    "marked": true,
+    "receiptNumber": "",
+    "transactionLastDigit": "",
+    "numberOfFamilyMembers": "",
+    "amount": ""
   }
 ]
