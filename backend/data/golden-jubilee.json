@@ -296,7 +296,7 @@
     "branch": "EIECTRICAL ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
@@ -332,7 +332,7 @@
     "branch": "ELECTRONICS AND COMMUNICATION ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
@@ -656,7 +656,7 @@
     "branch": "MECHANICAL ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
@@ -764,7 +764,7 @@
     "branch": "MECHANICAL ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
@@ -800,7 +800,7 @@
     "branch": "MECHANICAL ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""

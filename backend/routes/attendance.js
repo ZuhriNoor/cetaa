@@ -120,7 +120,16 @@ async function processSheetsQueue() {
   let processedIndices = [];
   for (const category of Object.keys(grouped)) {
     const sheetId = getSheetId(category);
-    const range = category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:K";
+    let range;
+    if (category === 'golden-jubilee') {
+      range = "Sheet1!A:K"; // 11 columns: Timestamp, ID, Name, Category, Branch, Seat No, Year, Coupon code, Payment method, Last Digit of Transaction, Number of Family Members
+    } else if (category === 'executives') {
+      range = "Sheet1!A:G";
+    } else if (category === 'other-alumni') {
+      range = "Sheet1!A:L";
+    } else {
+      range = "Sheet1!A:L";
+    }
     let retries = 0;
     let success = false;
     const rows = grouped[category];
@@ -202,7 +211,21 @@ router.post("/", async (req, res) => {
 
   // Create row based on category
   let row;
-  if (category === 'executives') {
+  if (category === 'golden-jubilee') {
+    row = [
+      new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+      attendee.id,
+      attendee.name,
+      attendee.category,
+      attendee.branch,
+      attendee.seatNumber,
+      attendee.year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      transactionLastDigit || "",
+      numberOfFamilyMembers || ""
+    ];
+  } else if (category === 'executives') {
     // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount
     row = [
       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
@@ -244,8 +267,8 @@ router.post("/", async (req, res) => {
       paymentMethod || "No Payment",
       receiptNumber || "",
       transactionLastDigit || "",
-      category === 'silver-jubilee' ? (numberOfFamilyMembers || "") : "",
-      category === 'silver-jubilee' ? (amount || "") : ""
+      numberOfFamilyMembers || "",
+      amount || ""
     ];
   }
 
@@ -256,7 +279,21 @@ router.post("/", async (req, res) => {
     logs = JSON.parse(fs.readFileSync(attendanceLogPath, "utf-8"));
   }
 
-  if (category === 'executives') {
+  if (category === 'golden-jubilee') {
+    logs.push({
+      timestamp: row[0],
+      id: row[1],
+      name: row[2],
+      category: row[3],
+      branch: row[4],
+      seatNumber: row[5],
+      year: row[6],
+      couponCode: row[7],
+      paymentMethod: row[8],
+      transactionLastDigit: row[9],
+      numberOfFamilyMembers: row[10]
+    });
+  } else if (category === 'executives') {
     logs.push({
       timestamp: row[0],
       id: row[1],
@@ -350,7 +387,21 @@ router.post("/register", async (req, res) => {
   // Prepare row for logs and sheet
   const timestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: true });
   let row;
-  if (category === 'executives') {
+  if (category === 'golden-jubilee') {
+    row = [
+      timestamp,
+      newId,
+      name,
+      category,
+      branch,
+      seatNumber || "",
+      year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      transactionLastDigit || "",
+      numberOfFamilyMembers || ""
+    ];
+  } else if (category === 'executives') {
     row = [
       timestamp,
       newId,

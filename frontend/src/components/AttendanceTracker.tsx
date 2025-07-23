@@ -79,7 +79,7 @@ const AttendanceTracker = ({ category, title, description, badgeColor = "default
           paymentMethod,
           category,
           transactionLastDigit,
-          numberOfFamilyMembers: ['silver-jubilee', 'executives', 'other-alumni'].includes(category) ? numberOfFamilyMembers : undefined,
+          numberOfFamilyMembers: ['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category) ? numberOfFamilyMembers : undefined,
           amount: ['silver-jubilee', 'executives', 'other-alumni'].includes(category) ? amount : undefined
         })
       });
