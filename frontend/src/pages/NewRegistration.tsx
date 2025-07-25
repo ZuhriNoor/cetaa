@@ -175,19 +175,7 @@ const NewRegistration = () => {
               </div>
             </div>
             {/* Seat number only for golden/silver/jubilee/executives, optional */}
-            {(formData.category === 'golden-jubilee' || formData.category === 'silver-jubilee' || formData.category === 'executives') && (
-              <div className="space-y-2">
-                <Label htmlFor="seatNumber">Seat Number (Optional)</Label>
-                <Input
-                  id="seatNumber"
-                  type="text"
-                  value={formData.seatNumber}
-                  onChange={e => handleInputChange("seatNumber", e.target.value)}
-                  placeholder="Enter seat number (optional)"
-                  readOnly={formData.category === 'silver-jubilee'}
-                />
-              </div>
-            )}
+
 
             <div className="space-y-2">
               <Label htmlFor="couponCode">Coupon Code (Optional)</Label>
