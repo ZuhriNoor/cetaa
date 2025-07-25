@@ -121,6 +121,19 @@ function AttendanceForm({
               />
             </div>
           )}
+          {(['executives', 'other-alumni'].includes(category)) && (
+            <div className="space-y-2">
+              <Label htmlFor="transactionLastDigit">Last Digit of Transaction (Optional)</Label>
+              <Input
+                id="transactionLastDigit"
+                type="text"
+                maxLength={1}
+                value={transactionLastDigit}
+                onChange={e => setTransactionLastDigit(e.target.value)}
+                placeholder="Enter last digit of transaction"
+              />
+            </div>
+          )}
           <Button 
             type="submit" 
             className="w-full flex items-center justify-center gap-2 font-semibold py-3 text-base"

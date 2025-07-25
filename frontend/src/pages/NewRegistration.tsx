@@ -224,7 +224,19 @@ const NewRegistration = () => {
                   type="text"
                   value={formData.transactionLastDigit}
                   onChange={e => handleInputChange("transactionLastDigit", e.target.value)}
-                  placeholder="Enter last digit of transaction if available"
+                  placeholder="Enter last four digits of transaction"
+                />
+              </div>
+            )}
+            {(['executives', 'other-alumni'].includes(formData.category)) && (
+              <div className="space-y-2">
+                <Label htmlFor="transactionLastDigit">Last Digit of Transaction (Optional)</Label>
+                <Input
+                  id="transactionLastDigit"
+                  type="text"
+                  value={formData.transactionLastDigit}
+                  onChange={e => handleInputChange("transactionLastDigit", e.target.value)}
+                  placeholder="Enter last digit of transaction"
                 />
               </div>
             )}
@@ -238,7 +250,7 @@ const NewRegistration = () => {
                   min="0"
                   value={formData.numberOfFamilyMembers}
                   onChange={e => handleInputChange("numberOfFamilyMembers", e.target.value)}
-                  placeholder="Enter number of family members if any"
+                  placeholder="Enter number of family members"
                 />
               </div>
             )}
@@ -251,7 +263,7 @@ const NewRegistration = () => {
                   min="0"
                   value={formData.amount}
                   onChange={e => handleInputChange("amount", e.target.value)}
-                  placeholder="Enter amount if any"
+                  placeholder="Enter amount"
                 />
               </div>
             )}

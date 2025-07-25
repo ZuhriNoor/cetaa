@@ -227,7 +227,7 @@ router.post("/", async (req, res) => {
       `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${attendee.id}.0.jpeg")`
     ];
   } else if (category === 'executives') {
-    // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount
+    // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount | Last Digit of Transaction
     row = [
       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       attendee.id,
@@ -235,7 +235,8 @@ router.post("/", async (req, res) => {
       attendee.category,
       "Yes",
       numberOfFamilyMembers || "",
-      amount || ""
+      amount || "",
+      transactionLastDigit || ""
     ];
   } else if (category === 'other-alumni') {
     // Format: Timestamp | ID | Name | Category | Branch | Year | Coupon code | Payment method | Receipt Number | Last Digit of Transaction | Number of Family Members | Amount
@@ -302,7 +303,8 @@ router.post("/", async (req, res) => {
       category: row[3],
       marked: row[4],
       numberOfFamilyMembers: row[5],
-      amount: row[6]
+      amount: row[6],
+      transactionLastDigit: row[7]
     });
   } else if (category === 'other-alumni') {
     logs.push({
@@ -411,7 +413,8 @@ router.post("/register", async (req, res) => {
       category,
       "Yes",
       numberOfFamilyMembers || "",
-      amount || ""
+      amount || "",
+      transactionLastDigit || ""
     ];
   } else if (category === 'other-alumni') {
     row = [
@@ -459,7 +462,8 @@ router.post("/register", async (req, res) => {
     category: row[3],
     marked: row[4],
     numberOfFamilyMembers: row[5],
-    amount: row[6]
+    amount: row[6],
+    transactionLastDigit: row[7]
   });
   fs.writeFileSync(attendanceLogPath, JSON.stringify(logs, null, 2));
 
