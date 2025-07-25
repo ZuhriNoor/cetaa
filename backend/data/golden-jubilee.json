@@ -596,7 +596,7 @@
     "branch": "MECHANICAL ENGINEERING",
     "year": "",
     "seatNumber": "",
-    "marked": false,
+    "marked": true,
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
@@ -852,18 +852,5 @@
     "receiptNumber": "",
     "transactionLastDigit": "",
     "numberOfFamilyMembers": ""
-  },
-  {
-    "id": 73,
-    "name": "sfdsf",
-    "category": "golden-jubilee",
-    "branch": "33",
-    "year": "453534",
-    "seatNumber": "wer",
-    "marked": true,
-    "receiptNumber": "54",
-    "transactionLastDigit": "34534",
-    "numberOfFamilyMembers": "",
-    "amount": ""
   }
 ]

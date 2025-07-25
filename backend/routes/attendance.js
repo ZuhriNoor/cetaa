@@ -122,7 +122,7 @@ async function processSheetsQueue() {
     const sheetId = getSheetId(category);
     let range;
     if (category === 'golden-jubilee') {
-      range = "Sheet1!A:K"; // 11 columns: Timestamp, ID, Name, Category, Branch, Seat No, Year, Coupon code, Payment method, Last Digit of Transaction, Number of Family Members
+      range = "Sheet1!A:L"; // 12 columns: Timestamp, ID, Name, Category, Branch, Seat No, Year, Coupon code, Payment method, Last Digit of Transaction, Number of Family Members, Image
     } else if (category === 'executives') {
       range = "Sheet1!A:G";
     } else if (category === 'other-alumni') {
@@ -223,7 +223,8 @@ router.post("/", async (req, res) => {
       couponCode || "",
       paymentMethod || "No Payment",
       transactionLastDigit || "",
-      numberOfFamilyMembers || ""
+      numberOfFamilyMembers || "",
+      `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${attendee.id}.0.jpeg")`
     ];
   } else if (category === 'executives') {
     // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount
@@ -399,7 +400,8 @@ router.post("/register", async (req, res) => {
       couponCode || "",
       paymentMethod || "No Payment",
       transactionLastDigit || "",
-      numberOfFamilyMembers || ""
+      numberOfFamilyMembers || "",
+      `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${newId}.0.jpeg")`
     ];
   } else if (category === 'executives') {
     row = [
