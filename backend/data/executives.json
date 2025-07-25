@@ -42,7 +42,7 @@
     "branch": "EE",
     "year": "1985",
     "seatNumber": "",
-    "marked": true,
+    "marked": false,
     "numberOfFamilyMembers": "",
     "amount": "",
     "transactionLastDigit": ""
@@ -138,7 +138,7 @@
     "branch": "EE",
     "year": "1975",
     "seatNumber": "",
-    "marked": true,
+    "marked": false,
     "numberOfFamilyMembers": "",
     "amount": "",
     "transactionLastDigit": ""
@@ -270,10 +270,10 @@
     "branch": "EE",
     "year": "",
     "seatNumber": "",
-    "marked": true,
-    "numberOfFamilyMembers": "3",
-    "amount": "233",
-    "transactionLastDigit": "2131"
+    "marked": false,
+    "numberOfFamilyMembers": "",
+    "amount": "",
+    "transactionLastDigit": ""
   },
   {
     "name": "Kripa Sophy David",
@@ -749,7 +749,7 @@
     "transactionLastDigit": "",
     "numberOfFamilyMembers": "",
     "amount": "",
-    "marked": true
+    "marked": false
   },
   {
     "name": "Bhavana Theruvath",
