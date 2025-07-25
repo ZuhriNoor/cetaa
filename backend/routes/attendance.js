@@ -255,6 +255,7 @@ router.post("/", async (req, res) => {
       amount || ""
     ];
   } else {
+    console.log(attendee.seatNumber);
     // For golden-jubilee and silver-jubilee
     // New format: Timestamp | ID | Name | Category | Branch | Seat No | Year | Coupon code | Payment method | Receipt Number | Last Digit of Transaction | Number of Family Members | Amount
     row = [
@@ -267,7 +268,6 @@ router.post("/", async (req, res) => {
       attendee.year,
       couponCode || "",
       paymentMethod || "No Payment",
-      receiptNumber || "",
       transactionLastDigit || "",
       numberOfFamilyMembers || "",
       amount || ""
@@ -353,7 +353,7 @@ router.post("/", async (req, res) => {
 router.post("/register", async (req, res) => {
   const { name, branch, year, seatNumber, couponCode, paymentMethod, category, receiptNumber, transactionLastDigit, numberOfFamilyMembers, amount } = req.body;
 
-  if (!name || !branch || !year || !category) {
+  if (!name || !branch || !category) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   if (!['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) {
@@ -371,13 +371,23 @@ router.post("/register", async (req, res) => {
   const newId = attendees.length > 0 ? Math.max(...attendees.map(a => a.id || 0)) + 1 : 1;
 
   // Create new attendee
+  let assignedSeatNumber = seatNumber || "";
+  if (category === 'silver-jubilee' && !seatNumber) {
+    // Allowed seats: K107-K115 and K205-K215
+    const allowedSeats = [
+      ...Array.from({length: 9}, (_, i) => `K${107 + i}`),
+      ...Array.from({length: 11}, (_, i) => `K${205 + i}`)
+    ];
+    const takenSeats = attendees.map(a => a.seatNumber).filter(Boolean);
+    assignedSeatNumber = allowedSeats.find(seat => !takenSeats.includes(seat)) || "";
+  }
   const newAttendee = {
     id: newId,
     name,
     category,
     branch,
     year,
-    seatNumber: seatNumber || "",
+    seatNumber: assignedSeatNumber,
     marked: true,
     receiptNumber: receiptNumber || "",
     transactionLastDigit: transactionLastDigit || "",
@@ -404,6 +414,21 @@ router.post("/register", async (req, res) => {
       transactionLastDigit || "",
       numberOfFamilyMembers || "",
       `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${newId}.0.jpeg")`
+    ];
+  } else if (category === 'silver-jubilee') {
+    row = [
+      timestamp,
+      newId,
+      name,
+      category,
+      branch,
+      newAttendee.seatNumber || "",
+      year,
+      couponCode || "",
+      paymentMethod || "No Payment",
+      transactionLastDigit || "",
+      numberOfFamilyMembers || "",
+      amount || ""
     ];
   } else if (category === 'executives') {
     row = [

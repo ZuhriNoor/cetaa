@@ -59,7 +59,7 @@ const NewRegistration = () => {
           category: formData.category,
           branch: formData.branch,
           year: formData.year,
-          seatNumber: formData.seatNumber,
+          seatNumber: formData.category === 'silver-jubilee' ? undefined : formData.seatNumber,
           couponCode: formData.couponCode,
           paymentMethod: formData.paymentMethod,
           transactionLastDigit: formData.transactionLastDigit,
@@ -73,13 +73,12 @@ const NewRegistration = () => {
       if (data.success) {
         toast({
           title: "Registration Successful!",
-          description: `${formData.name} has been registered as a ${formData.category.replace('-', ' ')} member and marked present.`,
+          description: `${formData.name} has been registered as a ${formData.category.replace('-', ' ')} member and marked present.` + (formData.category === 'silver-jubilee' && data.attendee?.seatNumber ? `\nAssigned Seat Number: ${data.attendee.seatNumber}` : ''),
         });
-        
-        // Reset form
-        setFormData({
+        // Reset form, always clear seat number
+        setFormData(prev => ({
           name: "",
-          category: "",
+          category: prev.category,
           branch: "",
           year: "",
           seatNumber: "",
@@ -88,7 +87,7 @@ const NewRegistration = () => {
           transactionLastDigit: "",
           numberOfFamilyMembers: "",
           amount: ""
-        });
+        }));
       } else {
         throw new Error(data.error || "Registration failed");
       }
@@ -172,7 +171,6 @@ const NewRegistration = () => {
                   value={formData.year}
                   onChange={e => handleInputChange("year", e.target.value)}
                   placeholder="Enter year"
-                  required
                 />
               </div>
             </div>
@@ -186,6 +184,7 @@ const NewRegistration = () => {
                   value={formData.seatNumber}
                   onChange={e => handleInputChange("seatNumber", e.target.value)}
                   placeholder="Enter seat number (optional)"
+                  readOnly={formData.category === 'silver-jubilee'}
                 />
               </div>
             )}
@@ -248,7 +247,7 @@ const NewRegistration = () => {
                   min="0"
                   value={formData.numberOfFamilyMembers}
                   onChange={e => handleInputChange("numberOfFamilyMembers", e.target.value)}
-                  placeholder="Enter number of family members"
+                  placeholder="Enter number of food coupon"
                 />
               </div>
             )}

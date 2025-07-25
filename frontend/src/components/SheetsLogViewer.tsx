@@ -67,6 +67,8 @@ function SheetsLogViewer({ category }: SheetsLogViewerProps) {
         return "Silver Jubilee";
       case "executives":
         return "Executives & Volunteers";
+      case "other-alumni":
+        return "Other Alumni";
       default:
         return cat;
     }
@@ -80,6 +82,8 @@ function SheetsLogViewer({ category }: SheetsLogViewerProps) {
         return "secondary";
       case "executives":
         return "outline";
+      case "other-alumni":
+        return "secondary";
       default:
         return "default";
     }
@@ -89,7 +93,8 @@ function SheetsLogViewer({ category }: SheetsLogViewerProps) {
     const sheetIds = {
       'golden-jubilee': import.meta.env.VITE_GOOGLE_SHEETS_ID1,
       'silver-jubilee': import.meta.env.VITE_GOOGLE_SHEETS_ID2,
-      'executives': import.meta.env.VITE_GOOGLE_SHEETS_ID3
+      'executives': import.meta.env.VITE_GOOGLE_SHEETS_ID3,
+      'other-alumni': import.meta.env.VITE_GOOGLE_SHEETS_ID4
     };
     const sheetId = sheetIds[cat as keyof typeof sheetIds];
     return sheetId ? `https://docs.google.com/spreadsheets/d/${sheetId}` : null;
@@ -126,12 +131,13 @@ function SheetsLogViewer({ category }: SheetsLogViewerProps) {
                     <SelectItem value="golden-jubilee">Golden Jubilee</SelectItem>
                     <SelectItem value="silver-jubilee">Silver Jubilee</SelectItem>
                     <SelectItem value="executives">Executives & Volunteers</SelectItem>
+                    <SelectItem value="other-alumni">Other Alumni</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <Button 
                 variant="outline" 
-                size="sm" 
+                className="text-xs"
                 onClick={handleRefresh}
                 disabled={loading}
               >
@@ -144,7 +150,7 @@ function SheetsLogViewer({ category }: SheetsLogViewerProps) {
               {getSheetUrl(selectedCategory) && (
                 <Button 
                   variant="outline" 
-                  size="sm"
+                  className="text-xs"
                   onClick={() => window.open(getSheetUrl(selectedCategory), '_blank')}
                 >
                   <ExternalLink className="w-4 h-4 mr-1" />

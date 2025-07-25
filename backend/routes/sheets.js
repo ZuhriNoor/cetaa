@@ -16,7 +16,8 @@ const getSheetId = (category) => {
   const sheetIds = {
     'golden-jubilee': process.env.GOOGLE_SHEETS_ID1,
     'silver-jubilee': process.env.GOOGLE_SHEETS_ID2,
-    'executives': process.env.GOOGLE_SHEETS_ID3
+    'executives': process.env.GOOGLE_SHEETS_ID3,
+    'other-alumni': process.env.GOOGLE_SHEETS_ID4
   };
   return sheetIds[category] || process.env.GOOGLE_SHEETS_ID1;
 };
@@ -44,7 +45,7 @@ let sheets = null;
 router.get("/:category", async (req, res) => {
   const { category } = req.params;
   
-  if (!['golden-jubilee', 'silver-jubilee', 'executives'].includes(category)) {
+  if (!['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) {
     return res.status(400).json({ error: "Invalid category" });
   }
   
@@ -56,7 +57,9 @@ router.get("/:category", async (req, res) => {
   
   try {
     // Determine the range based on category
-    const range = category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:I";
+    let range = "Sheet1!A:I";
+    if (category === 'executives') range = "Sheet1!A:E";
+    if (category === 'other-alumni') range = "Sheet1!A:L";
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range: range,
@@ -78,6 +81,22 @@ router.get("/:category", async (req, res) => {
         name: row[2] || '',
         category: row[3] || '',
         marked: row[4] || ''
+      }));
+    } else if (category === 'other-alumni') {
+      // Format: Timestamp, ID, Name, Category, Branch, Year, Coupon Code, Payment Method, Receipt Number, Last Digit of Transaction, Number of Family Members, Amount
+      data = rows.slice(1).map(row => ({
+        timestamp: row[0] || '',
+        id: row[1] || '',
+        name: row[2] || '',
+        category: row[3] || '',
+        branch: row[4] || '',
+        year: row[5] || '',
+        couponCode: row[6] || '',
+        paymentMethod: row[7] || '',
+        receiptNumber: row[8] || '',
+        transactionLastDigit: row[9] || '',
+        numberOfFamilyMembers: row[10] || '',
+        amount: row[11] || ''
       }));
     } else {
       // Format: Timestamp, ID, Name, Category, Branch, Seat No, Year, Coupon Code, Payment Method
@@ -111,9 +130,11 @@ router.get("/", async (req, res) => {
   try {
     const allData = {};
     
-    for (const category of ['golden-jubilee', 'silver-jubilee', 'executives']) {
+    for (const category of ['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni']) {
       const sheetId = getSheetId(category);
-      const range = category === 'executives' ? "Sheet1!A:E" : "Sheet1!A:I";
+      let range = "Sheet1!A:I";
+      if (category === 'executives') range = "Sheet1!A:E";
+      if (category === 'other-alumni') range = "Sheet1!A:L";
       
       try {
         const response = await sheets.spreadsheets.values.get({
@@ -131,6 +152,21 @@ router.get("/", async (req, res) => {
               name: row[2] || '',
               category: row[3] || '',
               marked: row[4] || ''
+            }));
+          } else if (category === 'other-alumni') {
+            allData[category] = rows.slice(1).map(row => ({
+              timestamp: row[0] || '',
+              id: row[1] || '',
+              name: row[2] || '',
+              category: row[3] || '',
+              branch: row[4] || '',
+              year: row[5] || '',
+              couponCode: row[6] || '',
+              paymentMethod: row[7] || '',
+              receiptNumber: row[8] || '',
+              transactionLastDigit: row[9] || '',
+              numberOfFamilyMembers: row[10] || '',
+              amount: row[11] || ''
             }));
           } else {
             allData[category] = rows.slice(1).map(row => ({

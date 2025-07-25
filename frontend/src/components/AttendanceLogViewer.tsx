@@ -156,7 +156,6 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                       <>
                         <TableHead>Branch</TableHead>
                         <TableHead>Seat No</TableHead>
-                        <TableHead>Year</TableHead>
                         <TableHead>Coupon Code</TableHead>
                         <TableHead>Payment Method</TableHead>
                         <TableHead>Last Digit of Transaction</TableHead>
@@ -194,7 +193,6 @@ function AttendanceLogViewer({ category }: AttendanceLogViewerProps) {
                         <>
                           <TableCell>{log.branch}</TableCell>
                           <TableCell>{log.seatNumber}</TableCell>
-                          <TableCell>{log.year}</TableCell>
                           <TableCell>{log.couponCode || "-"}</TableCell>
                           <TableCell>{log.paymentMethod || "-"}</TableCell>
                           <TableCell>{log.transactionLastDigit || "-"}</TableCell>

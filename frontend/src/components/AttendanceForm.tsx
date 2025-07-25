@@ -102,7 +102,7 @@ function AttendanceForm({
                 min="0"
                 value={numberOfFamilyMembers}
                 onChange={e => setNumberOfFamilyMembers(e.target.value)}
-                placeholder="Enter number of family members if any"
+                placeholder="Enter number of food coupons"
               />
             </div>
           )}
