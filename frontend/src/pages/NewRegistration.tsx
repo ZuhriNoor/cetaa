@@ -209,8 +209,6 @@ const NewRegistration = () => {
                 <SelectContent>
                   <SelectItem value="Cash">Cash</SelectItem>
                   <SelectItem value="UPI">UPI</SelectItem>
-                  <SelectItem value="Card">Card</SelectItem>
-                  <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
                   <SelectItem value="No Payment">No Payment</SelectItem>
                 </SelectContent>
               </Select>
@@ -243,7 +241,7 @@ const NewRegistration = () => {
             {/* Number of Family Members and Amount for silver-jubilee, executives, other-alumni */}
             {(['silver-jubilee', 'executives', 'other-alumni'].includes(formData.category)) && (
               <div className="space-y-2">
-                <Label htmlFor="numberOfFamilyMembers">Number of Family Members (Optional)</Label>
+                <Label htmlFor="numberOfFamilyMembers">Number of Food Coupons (Optional)</Label>
                 <Input
                   id="numberOfFamilyMembers"
                   type="number"

@@ -270,9 +270,9 @@
     "branch": "EE",
     "year": "",
     "seatNumber": "",
-    "marked": false,
-    "numberOfFamilyMembers": "",
-    "amount": "",
-    "transactionLastDigit": ""
+    "marked": true,
+    "numberOfFamilyMembers": "3",
+    "amount": "233",
+    "transactionLastDigit": "2131"
   }
 ]

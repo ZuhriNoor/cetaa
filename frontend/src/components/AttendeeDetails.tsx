@@ -50,14 +50,14 @@ function AttendeeDetails({ attendee, category }: AttendeeDetailsProps) {
           {category !== 'executives' && attendee.seatNumber && (
             <div className="flex items-center gap-2">
               <span className="font-semibold">Seat Number:</span>
-              <span className="text-sm text-gray-600">{attendee.seatNumber}</span>
+              <span className="text-lg text-white bg-blue-900 px-2 py-1 rounded-md">{attendee.seatNumber}</span>
             </div>
           )}
         </div>
         <div className="text-sm">
           <span className="font-medium">Status:</span> 
           <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
-            attendee.marked ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+            attendee.marked ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
           }`}>
             {attendee.marked ? 'Marked' : 'Not Marked'}
           </span>

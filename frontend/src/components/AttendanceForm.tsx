@@ -76,8 +76,6 @@ function AttendanceForm({
                 <SelectContent>
                   <SelectItem value="Cash">Cash</SelectItem>
                   <SelectItem value="UPI">UPI</SelectItem>
-                  <SelectItem value="Card">Card</SelectItem>
-                  <SelectItem value="Bank Transfer">Bank Transfer</SelectItem>
                   <SelectItem value="No Payment">No Payment</SelectItem>
                 </SelectContent>
               </Select>
@@ -97,7 +95,7 @@ function AttendanceForm({
           )}
           {(['golden-jubilee', 'silver-jubilee', 'executives', 'other-alumni'].includes(category)) && (
             <div className="space-y-2">
-              <Label htmlFor="numberOfFamilyMembers">Number of Family Members (Optional)</Label>
+              <Label htmlFor="numberOfFamilyMembers">Number of Food Coupons (Optional)</Label>
               <Input
                 id="numberOfFamilyMembers"
                 type="number"
@@ -127,7 +125,6 @@ function AttendanceForm({
               <Input
                 id="transactionLastDigit"
                 type="text"
-                maxLength={1}
                 value={transactionLastDigit}
                 onChange={e => setTransactionLastDigit(e.target.value)}
                 placeholder="Enter last digit of transaction"

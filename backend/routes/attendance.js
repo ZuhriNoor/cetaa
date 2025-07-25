@@ -219,12 +219,12 @@ router.post("/", async (req, res) => {
       attendee.category,
       attendee.branch,
       attendee.seatNumber,
+      `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${attendee.id}.0.jpeg")`,
       attendee.year,
       couponCode || "",
       paymentMethod || "No Payment",
       transactionLastDigit || "",
-      numberOfFamilyMembers || "",
-      `=IMAGE("https://raw.githubusercontent.com/zuhrinoor/cetaa/main/backend/data/images_golden/${attendee.id}.0.jpeg")`
+      numberOfFamilyMembers || ""
     ];
   } else if (category === 'executives') {
     // New format: Timestamp | ID | Name | Category | Marked | Number of Family Members | Amount | Last Digit of Transaction
